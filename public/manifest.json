@@ -1,0 +1,15 @@
+{
+  "short_name": "jenna wang",
+  "name": "jenna wang's portfolio",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "1200x1200"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
