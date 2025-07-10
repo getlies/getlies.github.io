@@ -2038,9 +2038,9 @@ function handleContactMethod(methodType, element) {
 // Reset method button to original state
 function resetMethodButton(button, methodType) {
     const originalContent = {
-        email: '<span>nambinh236@gmail.com</span><i class="fas fa-copy"></i>',
+        email: '<span>getlies@fbi.one</span><i class="fas fa-copy"></i>',
         github: '<span>@Getlies</span><i class="fas fa-external-link-alt"></i>',
-        discord: '<span>rubiachaaaan</span><i class="fas fa-copy"></i>'
+        discord: '<span>dprian</span><i class="fas fa-copy"></i>'
     };
     
     button.style.background = '';
