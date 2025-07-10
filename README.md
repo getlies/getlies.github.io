@@ -1,6 +1,6 @@
 # Getlies Portfolio 🚀
 
-Welcome to my personal portfolio website! This is a modern, interactive showcase of my work as a University Student and (Maybe) Game Creator.
+Welcome to my personal portfolio website! This is a modern, interactive showcase of my work and (Maybe) Game Creator.
 
 **Visit Site**: [https://getlies.github.io](https://getlies.github.io)
 
