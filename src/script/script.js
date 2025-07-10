@@ -2068,13 +2068,13 @@ function openGitHubEnhanced() {
 // }
 
 function copyDiscordEnhanced() {
-    const discordHandle = 'rubiachaaaan'; // Replace with your Discord
+    const discordHandle = '.dprian';
     copyToClipboardEnhanced(discordHandle);
     showEnhancedNotification(`💬 Discord copied: ${discordHandle}`, 'success');
 }
 
 function copyEmailEnhanced() {
-    const email = 'nambinh236@gmail.com'; 
+    const email = 'getlies@fbi.one'; 
     copyToClipboardEnhanced(email);
     showEnhancedNotification(`📧 Email copied: ${email}`, 'success');
 }
