@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getlies.py</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="src/css/loading-animation.css">
+</head>
+
+<body>
+
+    <div id="page-cover" class="page-cover">
+        <div class="cover-content">
+
+            <div class="cover-logo">GL</div>
+            <div class="cover-spinner"></div>
+        </div>
+    </div>
+
+    <style>
+        /* prevent scrolling while loading */
+        body.loading-active {
+            overflow: hidden;
+            height: 100vh;
+            position: fixed;
+            width: 100%;
+        }
+
+        .page-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .page-cover.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover-content {
+            text-align: center;
+            color: white;
+        }
+
+        .cover-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: coverPulse 2s ease-in-out infinite;
+        }
+
+        .cover-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: coverSpin 1s linear infinite;
+        }
+
+        @keyframes coverPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes coverSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* hide the cover on mobile if needed */
+        @media (max-width: 768px) {
+            .cover-logo {
+                font-size: 2rem;
+            }
+
+            .cover-spinner {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        .intro {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .fade-in-text {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight {
+            color: #007acc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .highlight:hover {
+            color: #005a99;
+            text-decoration: underline;
+        }
+
+        .external-link-icon {
+            width: 14px;
+            height: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .highlight:hover .external-link-icon {
+            opacity: 1;
+        }
+
+        .quotes-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quotes-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="quote-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23e2e8f0" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23quote-pattern)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .quote-showcase {
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 0 auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .quote-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+        }
+
+        .quote-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #1f2937;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.7;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .quote-author {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin: 0;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .quote-refresh {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #3b82f6;
+            z-index: 3;
+        }
+
+        .quote-refresh:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: rotate(180deg) scale(1.1);
+            color: #2563eb;
+        }
+
+        /* Dark mode styles for quotes */
+        /* Dark mode styles for quotes */
+        [data-theme="dark"] .quotes-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+        }
+
+        [data-theme="dark"] .quotes-section::before {
+            background: none;
+            /* Remove the pattern in dark mode */
+            /* Or use a different pattern that works better with dark theme */
+            background: radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+        }
+
+        [data-theme="dark"] .quote-container {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(71, 85, 105, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        [data-theme="dark"] .quote-container::before {
+            background: linear-gradient(90deg, #60a5fa, #a78bfa, #34d399);
+        }
+
+        [data-theme="dark"] .quote-text {
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .quote-author {
+            color: #94a3b8;
+        }
+
+        [data-theme="dark"] .quote-icon {
+            color: #8b5cf6;
+        }
+
+        [data-theme="dark"] .quote-refresh {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        [data-theme="dark"] .quote-refresh:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a855f7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quotes-section {
+                padding: 3rem 0;
+            }
+
+            .quote-container {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+
+            .quote-text {
+                font-size: 1.2rem;
+            }
+
+            .quote-refresh {
+                width: 36px;
+                height: 36px;
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Dark mode styles for intro text elements */
+        [data-theme="dark"] .highlight {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="dark"] .external-link-icon {
+            stroke: #9ca3af;
+            opacity: 0.8;
+        }
+
+        [data-theme="dark"] .highlight:hover .external-link-icon {
+            stroke: #e5e7eb;
+            opacity: 1;
+        }
+
+        /* Additional dark mode improvements for the intro section */
+        [data-theme="dark"] .intro {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .fade-in-text {
+            color: var(--text-secondary);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pageCover = document.getElementById('page-cover');
+
+
+            document.body.classList.add('loading-active');
+
+            if (pageCover) {
+                setTimeout(function () {
+                    pageCover.classList.add('fade-out');
+
+
+                    setTimeout(function () {
+                        if (pageCover.parentNode) {
+                            pageCover.parentNode.removeChild(pageCover);
+                        }
+                    }, 500);
+                }, 1000);
+            }
+        });
+
+
+        window.preventScrolling = function () {
+            document.body.classList.add('loading-active');
+        };
+
+        window.allowScrolling = function () {
+            document.body.classList.remove('loading-active');
+        };
+    </script>
+    <!-- Cursor trail effect -->
+    <div id="cursor-trail"></div>
+
+    <!-- Floating particles -->
+    <div id="particles-container"></div>
+
+    <!-- Loading screen -->
+    <!-- <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="code-animation">
+                <div class="code-line">&lt;developer&gt;</div>
+                <div class="code-line">&nbsp;&nbsp;passion = true;</div>
+                <div class="code-line">&nbsp;&nbsp;creativity++;</div>
+                <div class="code-line">&lt;/developer&gt;</div>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">GL</span>
+            </div>
+            <div class="nav-links">
+<!--                <a href="https://getlies-blog.vercel.app/" target="_blank" class="link-github">Blog</a> -->
+                <a href="https://github.com/getlies" target="_blank" class="link-github">Github</a>
+                <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#games" class="nav-link" data-section="games">Games</a>
+                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+                <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+            </div>
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <header id="home" class="hero-section">
+        <div class="container">
+            <div class="profile-section">
+                <div class="profile-img" id="profile-img">
+                    <div class="profile-inner">
+                <img src="images/my-avatar.jpg" alt="Getlies" class="profile-avatar">
+                    </div>
+                    <div class="profile-rings">
+                        <div class="ring ring-1"></div>
+                        <div class="ring ring-2"></div>
+                        <div class="ring ring-3"></div>
+                    </div>
+                </div>
+                <h1 class="typewriter" id="main-title"></h1>
+                <p class="title glitch-text" data-text="Full Stack Developer">Full Stack
+                    Developer</p>
+                <p class="intro fade-in-text">My primary interest backend development. I find the logic and architecture behind applications particularly fascinating. While I enjoy gaming and listening to a wide variety of music.</p>
+
+
+                <div class="stats-container">
+                    <div class="stat-item" data-count="15">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Projects Built</div>
+                    </div>
+                    <div class="stat-item" data-count="6">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Games Live</div>
+                    </div>
+                    <div class="stat-item" data-count="100">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">LeetCode Solved</div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <button class="cta-button primary" id="explore-btn">
+                        <span>Explore Games</span>
+                        <div class="button-particles"></div>
+                    </button>
+                    <button class="cta-button secondary" id="projects-btn">
+                        <span>View Projects</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator" id="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quotes Section -->
+    <section id="quotes" class="quotes-section">
+        <div class="container">
+            <!-- <div class="section-header">
+            <h2 class="section-title">Daily Inspiration</h2>
+            <p class="section-subtitle">Words that fuel creativity and innovation</p>
+        </div> -->
+
+            <div class="quote-showcase">
+                <div class="quote-container" id="dynamic-quote">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="quote-text" id="quote-text">"Loading inspiration..."</p>
+                        <p class="quote-author" id="quote-author">- System</p>
+                    </div>
+                    <div class="quote-refresh" onclick="displayQuote()" title="Get new quote">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <section id="about" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">About Me</h2>
+                        <p class="section-subtitle">Passionate about creating digital experiences that matter</p>
+                    </div>
+
+                    <div class="about-layout">
+                        <!-- Left side - Main content with interactive elements -->
+                        <div class="about-main">
+                            <div class="about-card interactive-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-user-code"></i>
+                                </div>
+                                <div class="about-text-content">
+                                    <div class="text-block">
+                                        <p>I'm currently a <span class="highlight-text">university student</span> whose
+                                            dream is to become a <span class="typing-text" id="typing-roles"></span> in
+                                            the future. I believe that the best games and applications transcend time.
+                                        </p>
+                                    </div>
+
+                                    <div class="text-block">
+                                        <p>Through <a href="#" class="digital-labs-link">
+                                                <span class="labs-text">Getlies Digital Labs:</span>
+                                                <div class="labs-tooltip">
+                                                    <div class="tooltip-content">
+                                                        <strong>My Digital Playground</strong>
+                                                        <p>Where I reimagine classic games with modern technology</p>
+                                                        <div class="tooltip-stats">
+                                                            <span>🎮 6 Games Live</span>
+                                                            <span>⚡ 15+ Projects</span>
+                                                            <span>💻 Full Stack</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>- I reimagine beloved classics with modern technology, creating
+                                            experiences that honor the past while embracing the future.</p>
+                                    </div>
+
+                                    <div class="text-block">
+                                        <p>My approach combines <span class="skill-highlight"
+                                                data-skill="technical">technical expertise</span> with a deep
+                                            understanding of <span class="skill-highlight" data-skill="ux">user
+                                                experience</span>, ensuring that every solution I build delivers both
+                                            <span class="emoji-word" data-emoji="💫">value</span> and <span
+                                                class="emoji-word" data-emoji="🎮">enjoyment</span>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="about-card interactive-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="about-text-content">
+                                    <div class="text-block">
+                                        <p>When I'm not coding, I enjoy contributing to <span class="github-link">open
+                                                source projects</span>, experimenting with new technologies, and
+                                            building tools that solve real-world problems.</p>
+                                    </div>
+
+                                    <div class="text-block">
+                                        <p>I believe in writing <span class="code-snippet-inline">clean()</span>, <span
+                                                class="code-snippet-inline">documented()</span> code and following
+                                            established patterns that make collaboration seamless.</p>
+                                    </div>
+
+                                    <div class="text-block">
+                                        <p>I'm passionate about making technology accessible and creating games that are
+                                            not just entertaining, but <span class="meaningful-text">meaningful to
+                                                everyone</span> who plays them.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right side - Interactive elements and stats -->
+                        <div class="about-sidebar">
+                            <!-- Personal info card -->
+                            <div class="info-card">
+                                <div class="info-header">
+                                    <div class="info-avatar">
+                                        <img src="images/my-avatar.jpg" alt="Getlies" class="avatar-image">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div class="info-details">
+                <h3>Getlies</h3>
+                                        <p class="status-text">🟢 Available for projects</p>
+                                    </div>
+                                </div>
+
+                                <div class="info-stats">
+                                    <div class="stat-row">
+                                        <span class="stat-label">🎓 Status</span>
+                                        <span class="stat-value">University Student</span>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span class="stat-label">🎯 Focus</span>
+                                        <span class="stat-value">Full-Stack Development</span>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span class="stat-label">🌍 Location</span>
+                                        <span class="stat-value">Building the Future</span>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span class="stat-label">☕ Fuel</span>
+                                        <span class="stat-value">Coffee & Creativity</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Journey timeline -->
+                            <div class="journey-card">
+                                <h4>My Journey</h4>
+                                <div class="timeline">
+                                    <div class="timeline-item future">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-date">Future</span>
+                                            <p>Senior Full-Stack Developer</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item active">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-date">Now</span>
+                                            <p>Building Getlies Digital Labs</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item active">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-date">2024</span>
+                                            <p>Launched 6 interactive games</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item active">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-date">2023</span>
+                                            <p>Started university & coding journey</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Fun facts -->
+                            <div class="fun-facts-card">
+                                <h4>Fun Facts</h4>
+                                <div class="facts-grid">
+                                    <div class="fact-item" data-fact="games">
+                                        <div class="fact-icon">🧩</div>
+                                        <div class="fact-text">
+                                            <span class="fact-number">100+</span>
+                                            <span class="fact-label">LeetCode Solved</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item" data-fact="commits">
+                                        <div class="fact-icon">💻</div>
+                                        <div class="fact-text">
+                                            <span class="fact-number">500+</span>
+                                            <span class="fact-label">Commits</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item" data-fact="coffee">
+                                        <div class="fact-icon">☕</div>
+                                        <div class="fact-text">
+                                            <span class="fact-number">∞</span>
+                                            <span class="fact-label">Cups of Coffee</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item" data-fact="learning">
+                                        <div class="fact-icon">📚</div>
+                                        <div class="fact-text">
+                                            <span class="fact-number">24/7</span>
+                                            <span class="fact-label">Learning Mode</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Current focus -->
+                            <div class="focus-card">
+                                <h4>Currently Learning</h4>
+                                <div class="learning-items">
+                                    <div class="learning-item">
+                                        <div class="learning-progress">
+                                            <div class="progress-bar" style="--progress: 75%"></div>
+                                        </div>
+                                        <span>Advanced React Patterns</span>
+                                    </div>
+                                    <div class="learning-item">
+                                        <div class="learning-progress">
+                                            <div class="progress-bar" style="--progress: 60%"></div>
+                                        </div>
+                                        <span>Rust Programming</span>
+                                    </div>
+                                    <div class="learning-item">
+                                        <div class="learning-progress">
+                                            <div class="progress-bar" style="--progress: 85%"></div>
+                                        </div>
+                                        <span>Game Development</span>
+                                    </div>
+                                    <div class="learning-item">
+                                        <div class="learning-progress">
+                                            <div class="progress-bar" style="--progress: 70%"></div>
+                                        </div>
+                                        <span>System Design</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="games" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Games</h2>
+                    <p class="section-subtitle">Modern reimaginations of classic games, playable directly in your
+                        browser</p>
+
+                    <!-- Game filter -->
+                    <div class="filter-tabs" id="game-filter">
+                        <button class="filter-tab active" data-filter="all">All Games</button>
+                        <!-- <button class="filter-tab" data-filter="puzzle">Puzzle</button>
+                        <button class="filter-tab" data-filter="card">Card</button>
+                        <button class="filter-tab" data-filter="skill">Skill</button> -->
+                    </div>
+                </div>
+
+                <div class="games-grid" id="games-grid">
+                    <div class="project-card game-card" data-category="puzzle" data-game="neosweeper">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-bomb"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>NeoSweeper <span class="badge pulse">Live</span></h3>
+                        <p>Modern twist on classic minesweeper with enhanced visuals, smooth animations, and intelligent
+                            gameplay mechanics.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">HTML5</span>
+                            <span class="tech-pill">HTML Canvas</span>
+                            <span class="tech-pill">CSS3</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://neo-sweeper.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="minesweeper">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card game-card" data-category="puzzle" data-game="neosudoku">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-border-all"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>NeoSudoku <span class="badge pulse">Live</span></h3>
+                        <p>Intelligent number puzzle game featuring multiple difficulty levels, smart hint system, and
+                            elegant design.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">HTML5</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">Algorithm</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://neo-sudoku.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="sudoku">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card game-card" data-category="puzzle" data-game="neo2048">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-superscript"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>Neo2048 <span class="badge pulse">Live</span></h3>
+                        <p>Reimagined sliding block puzzle with smooth animations, responsive controls, and satisfying
+                            visual feedback.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">HTML5</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">GSAP</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://neo-2048.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="2048">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card game-card" data-category="card" data-game="neosolitaire">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-diamond"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>NeoSolitaire <span class="badge pulse">Live</span></h3>
+                        <p>Modern solitaire card game with sleek design, fluid animations, and intuitive drag-and-drop
+                            mechanics.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">HTML5</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">Game Logic</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://neo-solitaire.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="solitaire">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card game-card" data-category="puzzle" data-game="memomix">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-shuffle"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>MemoMix <span class="badge pulse">Live</span></h3>
+                        <p>Memory challenge game with dynamic patterns, progressive difficulty, and engaging visual
+                            design.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Next.js</span>
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Memory Game</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://memomix.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="memory">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card game-card" data-category="skill" data-game="wordrush">
+                        <div class="card-glow"></div>
+                        <div class="project-icon-container">
+                            <i class="project-icon fas fa-keyboard"></i>
+                            <div class="icon-particles"></div>
+                        </div>
+                        <h3>WordRush <span class="badge pulse">Live</span></h3>
+                        <p>Interactive typing test web application featuring real-time WPM tracking and accuracy
+                            measurement.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Next.js</span>
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Real-time</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="play-btn" data-url="https://word-rush-six.vercel.app/">
+                                <i class="fas fa-play"></i>
+                                Play Now
+                            </button>
+                            <button class="demo-btn" data-demo="typing">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Projects & Tools</h2>
+                    <p class="section-subtitle">Practical solutions and development tools</p>
+                </div>
+
+                <div class="project-tabs">
+                    <button class="project-tab active" data-tab="apps">Others</button>
+                    <button class="project-tab" data-tab="mobile">Mobile Apps</button>
+                    <button class="project-tab" data-tab="tools">Dev Tools</button>
+                    <button class="project-tab" data-tab="experiments">Experiments</button>
+                </div>
+
+                <div class="project-content">
+                    <div class="tab-content active" id="apps-content">
+                        <div class="grid three-column">
+                            <div class="project-card app-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-laptop"></i>
+                                </div>
+                                <h3>Discord Voice Multiple</h3>
+                                <p>This project provides a voice command interface for Discord, allowing users to interact with the Discord server through various commands.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Javascript</span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="visit-btn" data-url="https://github.com/getlies/Voice-Discord-Multiple">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Visit Site
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="project-card app-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-laptop"></i>
+                                </div>
+                                <h3>Discord Spammer Multiple</h3>
+                                <p>This project is an auto spammer for Discord, allowing users to automatically send messages and control the spammer through commands.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">JavaScript</span>
+                                </div>
+                                <div class="card-actions">
+                                <button class="github-btn" data-url="https://github.com/getlies/spammer-multiple-discord">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="mobile-content">
+                        <div class="grid three-column">
+                            <div class="project-card mobile-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-mobile-alt"></i>
+                                </div>
+                                <h3>Flutter TaskFlow</h3>
+                                <p>Mobile companion to the web-based TaskFlow with offline capability, push
+                                    notifications, and optimized mobile UX.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Flutter</span>
+                                    <span class="tech-pill">Dart</span>
+                                
+                                </div>
+                                <div class="card-actions">
+                                <button class="github-btn" data-url="https://github.com/getlies/taskflow-flutter">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="project-card mobile-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-utensils"></i>
+                                </div>
+                                <h3>FlavorLink</h3>
+                                <p>Modern recipe and cooking app with ingredient tracking, meal planning, and other
+                                    features for food enthusiasts.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Flutter</span>
+                                    <span class="tech-pill">Dart</span>
+                                    
+                                    <span class="tech-pill">Cloud Storage</span>
+                                </div>
+                                <div class="card-actions">
+                                <button class="github-btn" data-url="https://github.com/getlies/flavor-link">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tools-content">
+                        <div class="grid three-column">
+                            <div class="project-card tool-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-folder-open"></i>
+                                </div>
+                                <h3>File Organizer</h3>
+                                <p>Fast, efficient command-line tool written in Rust for organizing files by type, date,
+                                    or custom rules.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Rust</span>
+                                    <span class="tech-pill">CLI Tool</span>
+                                </div>
+                                <div class="card-actions">
+                                        <button class="github-btn"
+                                        data-url="https://github.com/getlies/forg-file-organizer">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="project-card tool-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-file-code"></i>
+                                </div>
+                                <h3>Ferris Language</h3>
+                                <p>Simple programming language interpreter written in Rust for educational purposes.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Rust</span>
+                                    <span class="tech-pill">Interpreter</span>
+                                </div>
+                                <div class="card-actions">
+                                        <button class="github-btn" data-url="https://github.com/getlies/ferris-lang">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-content" id="experiments-content">
+                        <div class="grid three-column">
+                            <div class="project-card experiment-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-laptop-code"></i>
+                                </div>
+                                <h3>Portfolio Architect</h3>
+                                <p>Modern portfolio template system with dynamic content loading and interactive
+                                    elements.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Alpine.js</span>
+                                    <span class="tech-pill">Laravel</span>
+                                    <span class="tech-pill">Tailwind CSS</span>
+                                </div>
+                                <div class="card-actions">
+                                        <button class="github-btn" data-url="https://github.com/getlies/portfolio-layout">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="project-card experiment-card">
+                                <div class="card-glow"></div>
+                                <div class="project-icon-container">
+                                    <i class="project-icon fas fa-chart-line"></i>
+                                </div>
+                                <h3>Math Visualizer</h3>
+                                <p>A high-performance mathematical visualization tool combining Python's computational
+                                    power with JavaScript's interactive capabilities.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-pill">Python</span>
+                                    <span class="tech-pill">JavaScript</span>
+                                    <span class="tech-pill">Matplotlib</span>
+                                    <span class="tech-pill">NumPy</span>
+                                </div>
+                                <div class="card-actions">
+                                        <button class="github-btn" data-url="https://github.com/getlies/math-visualizer">
+                                        <i class="fab fa-github"></i>
+                                        View Code
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Skills & Technologies</h2>
+                    <p class="section-subtitle">Interactive showcase of my technical expertise</p>
+                </div>
+
+                <div class="skills-interactive">
+                    <div class="skill-category" data-category="frontend">
+                        <div class="category-header">
+                            <i class="fas fa-laptop-code"></i>
+                            <h3>Frontend</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="nextjs" data-level="90">
+                                <span class="skill-name">Next.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="react" data-level="85">
+                                <span class="skill-name">React</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="flutter" data-level="75">
+                                <span class="skill-name">Flutter</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="tailwind" data-level="80">
+                                <span class="skill-name">Tailwind CSS</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category" data-category="backend">
+                        <div class="category-header">
+                            <i class="fas fa-server"></i>
+                            <h3>Backend</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="laravel" data-level="85">
+                                <span class="skill-name">Laravel</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="nodejs" data-level="80">
+                                <span class="skill-name">Node.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="python" data-level="75">
+                                <span class="skill-name">C#/.NET</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="rust" data-level="70">
+                                <span class="skill-name">Rust</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="skill-category" data-category="database">
+                        <div class="category-header">
+                            <i class="fas fa-database"></i>
+                            <h3>Database & Cloud</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="mysql" data-level="85">
+                                <span class="skill-name">MySQL</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="firebase" data-level="80">
+                                <span class="skill-name">Firebase</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="postgresql" data-level="75">
+                                <span class="skill-name">SQLite</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill="vercel" data-level="90">
+                                <span class="skill-name">Vercel</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive code editor simulation -->
+                <div class="code-demo" id="code-demo">
+                    <div class="code-editor">
+                        <div class="editor-header">
+                            <div class="editor-tabs">
+                                <div class="tab active">skills.js</div>
+
+                            </div>
+                            <div class="editor-controls">
+                                <i class="fas fa-play" id="run-code"></i>
+                            </div>
+                        </div>
+                        <div class="editor-content">
+                            <div class="line-numbers"></div>
+                            <div class="code-content" id="code-content"></div>
+                        </div>
+                    </div>
+                    <div class="code-output" id="code-output">
+                        <div class="output-header">Console Output</div>
+                        <div class="output-content"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+
+
+            <div class="contact-hub">
+                <h3>Let's Connect!</h3>
+                <p class="contact-intro">Ready to collaborate? Choose your preferred way to reach out:</p>
+
+                <div class="contact-methods">
+                    <div class="contact-method" data-method="email">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4>Email Me</h4>
+                            <p>Quick response guaranteed</p>
+                            <button class="method-btn" onclick="copyEmailEnhanced()">
+                                <span>nambinh236@gmail.com</span>
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="contact-method" data-method="github">
+                        <div class="method-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4>GitHub</h4>
+                            <p>Check out my code</p>
+                            <button class="method-btn" onclick="openGitHub()">
+                                <span>@Getlies</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- <div class="contact-method" data-method="linkedin">
+            <div class="method-icon">
+                <i class="fab fa-linkedin"></i>
+            </div>
+            <div class="method-info">
+                <h4>LinkedIn</h4>
+                <p>Professional networking</p>
+                <button class="method-btn" onclick="openLinkedIn()">
+                    <span>Connect with me</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+            </div>
+        </div> -->
+
+                    <div class="contact-method" data-method="discord">
+                        <div class="method-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4>Discord</h4>
+                            <p>Casual chat</p>
+                            <button class="method-btn" onclick="copyDiscord()">
+                                <span>rubiachaaaan</span>
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-cta">
+                    <p>🚀 <strong>Open to opportunities!</strong> Always excited to discuss new projects and
+                        collaborations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Preview Modal -->
+    <div id="preview-modal" class="preview-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="preview-title">Game Preview</h3>
+                <button class="close-btn" id="close-preview">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-content" id="preview-content">
+                    <!-- Preview content will be dynamically inserted -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="src/script/quotes.js"></script>
+    <script src="src/script/loading-animation.js"></script> 
+    <script src="src/script/about-animations.js"></script>
+    <script src="src/script/skills-animations.js"></script>
+    <script src="src/script/contact-animations.js"></script>
+    <script src="src/script/script.js"></script>
+</body>
+
+</html>
