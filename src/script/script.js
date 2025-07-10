@@ -964,7 +964,7 @@ function initializeThemeToggle() {
     if (!themeToggle) return;
 
     
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     currentTheme = savedTheme;
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateThemeIcon();
